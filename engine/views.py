@@ -16,7 +16,7 @@ def nothanksPage(request):
 def showJokesByField(request, field="title"):
     if field == "rating" :
         jokes = Joke.objects.all()
-        jokes = sorted(jokes, key = lambda t: t.averageRating)
+        jokes = sorted(jokes, key = lambda t: t.averageRating(), reverse=True)
     else:
         if field == "author" :
             field = "author__name"
@@ -31,7 +31,7 @@ def showJokesByField(request, field="title"):
 
 def showAuthorsByField(request, field="name"):
     if field == "contribs":
-        authors = Author.objects.annotate(contriblen = (Count('joke') + Count('review'))).order_by('contriblen')
+        authors = Author.objects.annotate(contriblen = (Count('joke') + Count('review'))).order_by('-contriblen')
     else:
         try:
             authors = Author.objects.all().order_by(field)
@@ -69,7 +69,7 @@ def newReview(request, jokeid):
     if request.method == 'POST':
         form = ReviewForm(request.POST)
         try:
-            joke = Joke.objects.filter(category_id__exact=jokeid).first()
+            joke = Joke.objects.filter(id__exact=jokeid).first()
         except:
             return HttpResponseRedirect('/nothanks/')
 

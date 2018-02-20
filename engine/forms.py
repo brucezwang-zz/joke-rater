@@ -8,4 +8,4 @@ class JokeForm(forms.Form):
 class ReviewForm(forms.Form):
     name = forms.CharField(label='Author Name', max_length=100)
     text = forms.CharField(label='Text', max_length=3000, widget=forms.Textarea)
-    rating = forms.IntegerField(label='Rating')
+    rating = forms.IntegerField(label='Rating (1-10)')
