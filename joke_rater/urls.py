@@ -25,5 +25,5 @@ urlpatterns = [
     path('nothanks/', views.nothanksPage),
     path('thanks/', views.thanksPage),
     path('create/', views.newJoke),
-    path('review/<slug:uid>', views.newReview),
+    path('review/<int:jokeid>/', views.newReview),
 ]

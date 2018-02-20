@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 class Author(models.Model):
     category_id = models.AutoField(primary_key=True, default=0)
@@ -18,7 +19,6 @@ class Joke(models.Model):
     title = models.CharField(max_length=100)
     author = models.ForeignKey(Author, on_delete=models.SET_NULL, null=True)
 
-    @classmethod
     def averageRating(self):
         reviews = self.review_set.all()
         b = 0
@@ -37,7 +37,7 @@ class Joke(models.Model):
 
 class Review(models.Model):
     category_id = models.AutoField(primary_key=True, default=0)
-    rating = models.PositiveSmallIntegerField(default=5)
+    rating = models.PositiveSmallIntegerField(default=5, validators=[MaxValueValidator(100), MinValueValidator(1)])
     comments = models.TextField(max_length=3000)
     joke = models.ForeignKey(Joke, on_delete=models.SET_NULL, null=True)
     author = models.ForeignKey(Author, on_delete=models.SET_NULL, null=True)

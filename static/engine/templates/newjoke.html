@@ -8,19 +8,15 @@
 
 {% block content %}
   <div class="container-fluid">
-    <div class="row mt-2 mx-2">
-      <h3 class="display-4">New Joke</h3>
-      <div class="container-fluid">
-        <div class="row my-2 mx-2">
-          <form action="/create/" method="post">
-            {% csrf_token %}
-            <div class="form-group">
-              {{ form | crispy }}
-            </div>
-            <input class="my-1 btn btn-outline-primary" type="submit" value="Submit" />
-          </form>
+    <h3 class="display-4">New Joke</h3>
+    <div class="container-fluid">
+      <form action="/create/" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+          {{ form | crispy }}
         </div>
-      </div>
+        <input class="my-1 btn btn-outline-primary" type="submit" value="Submit" />
+      </form>
     </div>
   </div>
 {% endblock %}

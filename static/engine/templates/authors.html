@@ -8,56 +8,83 @@
 {% block content %}
   <div class="container-fluid">
     {% for author in authors %}
-      <div class="row mt-2">
-        <div class="card mb-4" style="width: 55rem; background-color: rgba(173, 173, 173, 0.45);">
-          <div class="card-body">
-            <h2 class="card-title display-4">{{ author.name }}</h2>
-            <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#{{ authorid }}1" aria-expanded="false" aria-controls="{{ authorid }}1">
-              Hide/Show Jokes
-            </button>
-            <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#{{ authorid }}2" aria-expanded="false" aria-controls="{{ authorid }}2">
-              Hide/Show Reviews
-            </button>
-            <div class="collapse" id="{{ authorid }}1">
-              <div id="accordion1">
-                {% for joke in author.joke_set %}
-                <div class="card">
-                  <div class="card-header" id="{{ review.category_id }}1">
-                    <h5 class="mb-0">
-                      <button class="btn btn-link" data-toggle="collapse" data-target="#{{ joke.category_id }}" aria-expanded="true" aria-controls="{{ joke.category_id }}">
-                        {{ joke.title }} - Average Rating: {{ joke.averageRating() }}/10
-                      </button>
-                    </h5>
-                  </div>
-                  <div id="{{ joke.category_id }}" class="collapse collapsed" aria-labelledby="{{ joke.category_id }}1" data-parent="#accordion1">
-                    <div class="card-body">
-                      <p>{{ joke.text }}</p>
-                      <a href="/review/{{ joke.category_id }}/" role="button" class="btn btn-outline-primary">Review This Joke</a>
+      <div class="card my-2" style="background-color: rgba(173, 173, 173, 0.15);">
+        <div class="card-body">
+          <h2 class="card-title display-4">{{ author.name }}</h2>
+          <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#{{ authorid }}1" aria-expanded="false" aria-controls="{{ authorid }}1">
+            Hide/Show Jokes
+          </button>
+          <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#{{ authorid }}2" aria-expanded="false" aria-controls="{{ authorid }}2">
+            Hide/Show Reviews
+          </button>
+          <div class="collapse my-2" id="{{ authorid }}1">
+            <div id="accordion1">
+              {% for joke in author.joke_set.all %}
+              <div class="card">
+                <div class="card-header" id="{{ review.category_id }}1">
+                  <h5 class="py-2">
+                    <button class="btn btn-link" data-toggle="collapse" data-target="#{{ joke.category_id }}" aria-expanded="true" aria-controls="{{ joke.category_id }}">
+                      {{ joke.title }} - Average Rating: {{ joke.averageRating }}/10
+                    </button>
+                  </h5>
+                </div>
+                <div id="{{ joke.category_id }}" class="collapse collapsed" aria-labelledby="{{ joke.category_id }}1" data-parent="#accordion1">
+                  <div class="card-body py-2">
+                    <p>{{ joke.text }}</p>
+                    <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#{{ joke.category_id }}1" aria-expanded="false" aria-controls="{{ joke.category_id }}1">
+                      Hide/Show Reviews
+                    </button>
+                    <a href="/review/{{ joke.category_id }}/" role="button" class="btn btn-outline-primary">Review This Joke</a>
+                    <div class="collapse" id="{{ joke.category_id }}1">
+                      <div id="{{ joke.category_id }}accordion">
+                      {% for review in joke.review_set.all %}
+                      <div class="card py-2">
+                        <div class="card-header" id="{{ review.category_id }}1a">
+                          <h5>
+                            <button class="btn btn-link" data-toggle="collapse" data-target="#{{ review.category_id }}a" aria-expanded="true" aria-controls="{{ review.category_id }}a">
+                              {{ review.rating }}/10 - {{ review.author.name }}'s review
+                            </button>
+                          </h5>
+                        </div>
+                        <div id="{{ review.category_id }}a" class="collapse collapsed" aria-labelledby="{{ review.category_id }}1a" data-parent="#{{ joke.category_id }}accordion">
+                          <div class="card-body">
+                            {{ review.comments }}
+                          </div>
+                        </div>
+                      </div>
+                      {% empty %}
+                      <h3 class="py-2">No Reviews</h3>
+                      {% endfor %}
+                    </div>
                     </div>
                   </div>
                 </div>
-                {% endfor %}
               </div>
+              {% empty %}
+              <h3 class="py-2">No Jokes</h3>
+              {% endfor %}
             </div>
-            <div class="collapse" id="{{ authorid }}2">
-              <div id="accordion2">
-                {% for review in author.review_set %}
-                <div class="card">
-                  <div class="card-header" id="{{ review.category_id }}1">
-                    <h5 class="mb-0">
-                      <button class="btn btn-link" data-toggle="collapse" data-target="#{{ review.category_id }}" aria-expanded="true" aria-controls="{{ review.category_id }}">
-                        {{ review.rating }}/10 - {{ review.author.name }}'s review
-                      </button>
-                    </h5>
-                  </div>
-                  <div id="{{ review.category_id }}" class="collapse collapsed" aria-labelledby="{{ review.category_id }}1" data-parent="#accordion2">
-                    <div class="card-body">
-                      {{ review.comments }}
-                    </div>
+          </div>
+          <div class="collapse" id="{{ authorid }}2">
+            <div id="accordion2">
+              {% for review in author.review_set.all %}
+              <div class="card my-2">
+                <div class="card-header" id="{{ review.category_id }}1">
+                  <h5 class="mb-0">
+                    <button class="btn btn-link" data-toggle="collapse" data-target="#{{ review.category_id }}" aria-expanded="true" aria-controls="{{ review.category_id }}">
+                      {{ review.rating }}/10 - {{ review.author.name }}'s review
+                    </button>
+                  </h5>
+                </div>
+                <div id="{{ review.category_id }}" class="collapse collapsed" aria-labelledby="{{ review.category_id }}1" data-parent="#accordion2">
+                  <div class="card-body">
+                    {{ review.comments }}
                   </div>
                 </div>
-                {% endfor %}
               </div>
+              {% empty %}
+              <h3 class="py-2">No Reviews</h3>
+              {% endfor %}
             </div>
           </div>
         </div>
