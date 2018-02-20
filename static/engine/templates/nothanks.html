@@ -1,0 +1,35 @@
+{% extends 'engine/templates/base.html' %}
+
+{% block header %}
+  <meta name="description" content="Improperly Formatted">
+  <title>Joke Rater | Oops</title>
+{% endblock %}
+
+{% block content %}
+  <div class="card mb-4 mx-auto">
+    <div class="card-body">
+      <h3 class="my-4 display-4">Oops</h3>
+      <p class="card-text">Your Review/Joke was improperly formatted!<br>Get started in the navbar or with the links below:</p>
+      <div class="container-fluid">
+        <div class="row pt-2">
+          <div class="pr-3">
+            <a href="/create/" role="button" class="btn btn-outline-primary">Create A Joke</a>
+            <a href="/jokes/rating/" role="button" class="btn btn-outline-primary">Browse Jokes by Rating</a>
+          </div>
+        </div>
+        <div class="row pt-4">
+          <div class="pr-3">
+            <a href="/jokes/title/" role="button" class="btn btn-outline-primary">Browse Jokes by Title</a>
+            <a href="/jokes/author/" role="button" class="btn btn-outline-primary">Browse Jokes by Author</a>
+          </div>
+        </div>
+        <div class="row pt-4">
+          <div class="pr-3">
+            <a href="/authors/name/" role="button" class="btn btn-outline-primary">Browse Authors by Name</a>
+            <a href="/authors/contribs/" role="button" class="btn btn-outline-primary">Browse Authors by Contributions</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

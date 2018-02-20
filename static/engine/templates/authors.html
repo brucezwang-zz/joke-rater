@@ -1,0 +1,67 @@
+{% extends 'engine/templates/base.html' %}
+
+{% block header %}
+  <meta name="description" content="Browse Authors">
+  <title>Joke Rater | Browse Authors</title>
+{% endblock %}
+
+{% block content %}
+  <div class="container-fluid">
+    {% for author in authors %}
+      <div class="row mt-2">
+        <div class="card mb-4" style="width: 55rem; background-color: rgba(173, 173, 173, 0.45);">
+          <div class="card-body">
+            <h2 class="card-title display-4">{{ author.name }}</h2>
+            <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#{{ authorid }}1" aria-expanded="false" aria-controls="{{ authorid }}1">
+              Hide/Show Jokes
+            </button>
+            <button class="btn btn-outline-primary" type="button" data-toggle="collapse" data-target="#{{ authorid }}2" aria-expanded="false" aria-controls="{{ authorid }}2">
+              Hide/Show Reviews
+            </button>
+            <div class="collapse" id="{{ authorid }}1">
+              <div id="accordion1">
+                {% for joke in author.joke_set %}
+                <div class="card">
+                  <div class="card-header" id="{{ review.category_id }}1">
+                    <h5 class="mb-0">
+                      <button class="btn btn-link" data-toggle="collapse" data-target="#{{ joke.category_id }}" aria-expanded="true" aria-controls="{{ joke.category_id }}">
+                        {{ joke.title }} - Average Rating: {{ joke.averageRating() }}/10
+                      </button>
+                    </h5>
+                  </div>
+                  <div id="{{ joke.category_id }}" class="collapse collapsed" aria-labelledby="{{ joke.category_id }}1" data-parent="#accordion1">
+                    <div class="card-body">
+                      <p>{{ joke.text }}</p>
+                      <a href="/review/{{ joke.category_id }}/" role="button" class="btn btn-outline-primary">Review This Joke</a>
+                    </div>
+                  </div>
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+            <div class="collapse" id="{{ authorid }}2">
+              <div id="accordion2">
+                {% for review in author.review_set %}
+                <div class="card">
+                  <div class="card-header" id="{{ review.category_id }}1">
+                    <h5 class="mb-0">
+                      <button class="btn btn-link" data-toggle="collapse" data-target="#{{ review.category_id }}" aria-expanded="true" aria-controls="{{ review.category_id }}">
+                        {{ review.rating }}/10 - {{ review.author.name }}'s review
+                      </button>
+                    </h5>
+                  </div>
+                  <div id="{{ review.category_id }}" class="collapse collapsed" aria-labelledby="{{ review.category_id }}1" data-parent="#accordion2">
+                    <div class="card-body">
+                      {{ review.comments }}
+                    </div>
+                  </div>
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

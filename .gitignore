@@ -1,0 +1,5 @@
+.env
+joke_rater/secret_settings.py
+*/__pycache__
+*/migrations/__pycache__
+venv/

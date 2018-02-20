@@ -1,0 +1,36 @@
+{% extends 'engine/templates/base.html' %}
+{% load crispy_forms_tags %}
+
+{% block header %}
+  <meta name="description" content="Create A Review">
+  <title>Joke Rater | Create Review</title>
+{% endblock %}
+
+{% block content %}
+  <div class="container-fluid">
+    <div class="row mt-2">
+      <h3 class="my-4 display-4">New Review</h3>
+      <form action="/review/{{ jokeid }}/" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+          {{ nameform }}
+          <input type="submit" value="Submit" />
+        </div>
+        <div class="form-group">
+          <label for="Rating">Rating (1-10)</label>
+          <select class="form-control" id="author_name" name="author_name" required>
+            {% for i in range %}
+              <option>{{ i }}</option>
+            {% endfor %}
+          </select>
+          <input type="submit" value="Submit" />
+        </div>
+        <div class="form-group">
+          <label for="Text">Review Comments</label>
+          <textarea class="form-control" id="text" name="text" rows="3" required></textarea>
+          <input type="submit" value="Submit" />
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}
