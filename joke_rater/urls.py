@@ -14,16 +14,16 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.conf.urls import url
 from engine import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', views.homePage),
-    path('jokes/<slug:field>/', views.showJokesByField),
-    path('authors/<slug:field>/', views.showAuthorsByField),
-    path('nothanks/', views.nothanksPage),
-    path('thanks/', views.thanksPage),
-    path('create/', views.newJoke),
-    path('review/<int:jokeid>/', views.newReview),
+    url(r'^admin/$', admin.site.urls),
+    url(r'^$', views.homePage),
+    url(r'^jokes/(?P<field>\w+)/$', views.showJokesByField),
+    url(r'^authors/(?P<field>\w+)/$', views.showAuthorsByField),
+    url(r'^nothanks/$', views.nothanksPage),
+    url(r'^thanks/$', views.thanksPage),
+    url(r'^create/$', views.newJoke),
+    url(r'^review/(?P<jokeid>[0-9]+)/$', views.newReview),
 ]
